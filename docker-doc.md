@@ -13,3 +13,4 @@ docker ps
 docker image ls
 
 docker volume
+docker volume rm $(docker volume ls -q)
