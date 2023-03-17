@@ -12,7 +12,7 @@ services:
       # Tạo 1 database ant_home
       MYSQL_DATABASE: anthome_db
     ports:
-      - '3306:3306'
+      - '2083:3306'
   # Nginx
   nginx:
     image: nginx:stable-alpine
@@ -55,7 +55,9 @@ services:
       PMA_ABSOLUTE_URI: http://anthome.site/phpmyadmin/
       PMA_ENABLE_CREDENTIALS: 'true'
     ports:
-      - '8080:80'
+      - '2053:80'
+    volumes:
+      - ./phpmyadmin:/usr/share/phpmyadmin
     depends_on:
       - db
 volumes:
