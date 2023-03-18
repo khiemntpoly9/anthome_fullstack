@@ -1,5 +1,5 @@
 // import model User vào file  userController
-const { Role, User } = require('../../models/dbModel');
+const { Role, Account, Address } = require('../../models/dbModel');
 const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
 
@@ -70,14 +70,21 @@ const UserController = {
     }
   },
 
-  // Lấy tất cả thông tin user
+  // Lấy tất cả Account
   getAllUsers: async (req, res) => {
     try {
-      const users = await User.findAll({
-        include: {
-          model: Role,
-          attributes: ['nameRole', 'name'],
-        },
+      const users = await Account.findAll({
+        attributes: ['id_user', 'first_name', 'last_name', 'email', 'phone'],
+        include: [
+          {
+            model: Role,
+            attributes: ['name_role', 'short_role'],
+          },
+          {
+            model: Address,
+            attributes: ['id_address', 'name_address'],
+          },
+        ],
       });
       res.status(200).json(users);
     } catch (error) {
@@ -102,11 +109,18 @@ const UserController = {
     const { id } = req.query;
     try {
       // Dùng phương thức User.findByPk để tìm 'id' tương ứng
-      const user = await User.findByPk(id, {
-        include: {
-          model: Role,
-          attributes: ['nameRole', 'name'],
-        },
+      const user = await Account.findByPk(id, {
+        attributes: ['id_user', 'first_name', 'last_name', 'email', 'phone'],
+        include: [
+          {
+            model: Role,
+            attributes: ['name_role', 'short_role'],
+          },
+          {
+            model: Address,
+            attributes: ['id_address', 'name_address'],
+          },
+        ],
       });
       if (!user) {
         res.status(404).send('User not found');
@@ -122,10 +136,10 @@ const UserController = {
   // Tạo User
   // Tạo userName giống nhau sẽ bị lỗi, vì bên Model unique: true
   createUser: async (req, res) => {
-    const { userName, password } = req.body;
+    const { first_name, last_name, phone, email, password } = req.body;
     try {
       // Kiểm tra userName tồn tại chưa
-      const existingUser = await User.findOne({ where: { userName: userName } });
+      const existingUser = await Account.findOne({ where: { email: email } });
       if (existingUser) {
         res.status(400).json({ message: 'Tài khoản đã tồn tại' });
       } else {
@@ -133,9 +147,8 @@ const UserController = {
         const salt = await bcrypt.genSalt(saltRounds);
         const hashedPassword = await bcrypt.hash(password, salt);
         // Upload data
-        const user = await User.create({ userName, password: hashedPassword });
+        const user = await Account.create({ first_name, last_name, phone, email, password: hashedPassword });
         res.status(201).json({ message: 'Tạo tài khoản thành công!' });
-        // res.status(201).json(user);
       }
     } catch (error) {
       console.log(error);

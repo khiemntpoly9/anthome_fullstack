@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const userController = require('./controllers/userController');
+const userController = require('./controllers/userController');
 // const cateController = require('./controllers/cateController');
 const productController = require('./controllers/productController');
 
@@ -32,10 +32,10 @@ router.get('/products', productController.getAllProduct);
 // router.post('/logout', userController.authLogout);
 // Bảo mật API
 // router.get("/users", authenticateToken, userController.getAllUsers);
-// router.get('/users', userController.getAllUsers);
-// router.get('/user', userController.getUserById);
+router.get('/users', userController.getAllUsers);
+router.get('/user', userController.getUserById);
 // router.get('/listrole', userController.getRoleDetail);
-// router.post('/createuser', userController.createUser);
+router.post('/createuser', userController.createUser);
 // router.put("/updateuser", authenticateToken, userController.updateUser);
 // router.put('/updateuser', userController.updateUser);
 // router.put('/updateuserv2', userController.updateUserv2);

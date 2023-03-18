@@ -1,11 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connectDB');
 
-// 1 Model tương đương với 1 bảng cơ sở dữ liệu
-// Ta sử dụng phương thức define() của đối tượng sequelize để định nghĩa model này.
-
-// Lưu ý CỰC CAO: HÃY BACKUP DỮ LIỆU TRƯỢC KHI CHẠY CODE, NẾU KHÔNG SẼ BỊ DROP TABLE VÌ KHÔNG ĐÚNG KIỂU DỮ LIỆU
-
 // Category Model
 const Category = sequelize.define(
   'category',
@@ -180,7 +175,7 @@ const StyleProd = sequelize.define(
   },
   {
     timestamps: true,
-    freezeTableName: true, // đặt freezeTableName là true
+    freezeTableName: true,
   }
 );
 
@@ -245,7 +240,7 @@ const Product = sequelize.define(
   },
   {
     timestamps: true,
-    freezeTableName: true, // đặt freezeTableName là true
+    freezeTableName: true,
   }
 );
 
@@ -272,37 +267,113 @@ const ColorProd = sequelize.define(
   },
   {
     timestamps: false,
+    freezeTableName: true,
+  }
+);
+
+// Role Account
+const Role = sequelize.define(
+  'role',
+  {
+    id_role: {
+      type: DataTypes.INTEGER(5),
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name_role: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    short_role: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: true,
+    freezeTableName: true,
+  }
+);
+
+// User Account
+const Account = sequelize.define(
+  'users',
+  {
+    id_user: {
+      type: DataTypes.INTEGER(5),
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    first_name: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    last_name: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      unique: true,
+    },
+    phone: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    id_role: {
+      type: DataTypes.INTEGER(5),
+      allowNull: false,
+      defaultValue: 3,
+      references: {
+        model: Role,
+        key: 'id_role',
+      },
+    },
+    token: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      defaultValue: null,
+    },
+  },
+  {
+    timestamps: true,
     freezeTableName: true, // đặt freezeTableName là true
   }
 );
 
-// Hãy thêm dòng này để Sequelize tự tạo 2 cột createdAt và updatedAt
-// {
-//      timestamps: true,
-// }
-// Cột createdAt, updateAt là 2 cột mặc định của sequelize
-// {
-//      timestamps: false // Vô hiệu hóa createdAt và updatedAt
-// }
-// or đổi tên 2 côt này
-// {
-//      createdAt: 'created', // Đổi tên cột createdAt thành created
-//      updatedAt: 'updated'  // Đổi tên cột updatedAt thành updated
-// }
-
-// Nếu bật động bộ Models, sẽ tự tạo database theo mẫu của Models
-// Kiểu Number không được hỗ trợ trên Mysql, hãy dùng kiểu Integer
-
-// Bố m commet lại :)
-// async function syncModels() {
-//   /*
-//     Kiểm tra bảng trong cơ sở dữ liệu (có những trường nào, kiểu dữ liệu là gì ...)
-//     sau đó sẽ thay đổi phù hợp với model
-//     */
-//   await sequelize.sync({ alter: true });
-//   console.log('Models synced successfully.');
-// }
-// syncModels();
+// Address
+const Address = sequelize.define(
+  'address',
+  {
+    id_address: {
+      type: DataTypes.INTEGER(5),
+      primaryKey: true,
+      allowNull: false,
+    },
+    name_address: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    id_user: {
+      type: DataTypes.INTEGER(5),
+      allowNull: false,
+      references: {
+        model: Account,
+        key: 'id_user',
+      },
+    },
+  },
+  {
+    timestamps: true,
+    freezeTableName: true, // đặt freezeTableName là true
+  }
+);
 
 // 1-N: Danh mục mẹ có nhiều danh mục con
 Category.hasMany(CategoryChild, { foreignKey: 'id_category_product' });
@@ -325,6 +396,10 @@ Product.belongsTo(DetailProd, { foreignKey: 'id_detail_prod' });
 // Color Product
 Product.belongsToMany(Colors, { through: ColorProd, foreignKey: 'product_id' });
 Colors.belongsToMany(Product, { through: ColorProd, foreignKey: 'color_id' });
+// Account Role
+Account.belongsTo(Role, { foreignKey: 'id_role' });
+// Account Address
+Account.hasMany(Address, { foreignKey: 'id_user' });
 
 module.exports = {
   CategoryChild,
@@ -337,4 +412,7 @@ module.exports = {
   ImageProd,
   StyleProd,
   Product,
+  Role,
+  Account,
+  Address,
 };
