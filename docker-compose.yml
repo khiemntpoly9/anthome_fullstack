@@ -1,24 +1,6 @@
 # V1.2
 version: '3.9'
 services:
-  # Database
-  db:
-    image: mysql:8.0.32
-    # restart: always
-    # Lưu trữ db ngoài container
-    command: >
-      --bind-address=0.0.0.0
-      --default-authentication-plugin=mysql_native_password
-      --init-file /docker-entrypoint-initdb.d/init.sql
-    volumes:
-      - data_anthome:/var/lib/mysql
-      - ./init:/docker-entrypoint-initdb.d
-    environment:
-      MYSQL_DATABASE: anthome_db
-      MYSQL_ROOT_PASSWORD: 12345
-      # Tạo 1 database ant_home
-    ports:
-      - '3306:3306'
   # Nginx
   nginx:
     image: nginx:stable-alpine
@@ -34,19 +16,8 @@ services:
       - phpmyadmin:/var/www/html
     links:
       - app
-      - php-fpm
     depends_on:
       - app
-      - php-fpm
-  # PHP-FPM
-  php-fpm:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - phpmyadmin:/var/www/html
-    ports:
-      - "9000:9000"
   # Certbot
   certbot:
     image: certbot/certbot:latest
@@ -70,30 +41,3 @@ services:
       DB_USER: root
       DB_PASS: 12345
       DB_HOST: db
-    depends_on:
-      - db
-  # Phpmyadmin
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    restart: always
-    # Biến
-    environment:
-      PMA_ARBITRARY: 1
-      PMA_HOST: db
-      PMA_PORT: 3306
-      # PMA_USER: root
-      # PMA_PASSWORD: 12345
-      #
-      # PMA_ABSOLUTE_URI: https://anthome.site/pma/
-      PMA_ENABLE_CREDENTIALS: 'true'
-    ports:
-      - '8080:80'
-    volumes:
-      - phpmyadmin:/var/www/html
-    depends_on:
-      - db
-    # Thêm đoạn code này để cài đặt mysqli
-    command: ["sh", "-c", "docker-php-ext-install mysqli && docker-php-entrypoint apache2-foreground"]
-volumes:
-  data_anthome:
-  phpmyadmin:

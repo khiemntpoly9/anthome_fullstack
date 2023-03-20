@@ -1,4 +1,5 @@
-FROM php:8.1.17-fpm-alpine3.17
-
-# Install mysqli extension
-RUN docker-php-ext-install mysqli
+FROM node:18.15.0-alpine
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["npm", "start"]
