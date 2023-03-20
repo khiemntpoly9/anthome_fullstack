@@ -1,41 +1,67 @@
+# V1.2
 version: '3.9'
 services:
   # Database
   db:
     image: mysql:8.0.32
-    restart: always
+    # restart: always
     # Lưu trữ db ngoài container
     command: >
       --bind-address=0.0.0.0
       --default-authentication-plugin=mysql_native_password
       --init-file /docker-entrypoint-initdb.d/init.sql
     volumes:
-      - ./data:/var/lib/mysql
+      - data_anthome:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d
     environment:
+      MYSQL_DATABASE: anthome_db
       MYSQL_ROOT_PASSWORD: 12345
       # Tạo 1 database ant_home
-      MYSQL_DATABASE: anthome_db
     ports:
       - '3306:3306'
   # Nginx
   nginx:
     image: nginx:stable-alpine
+    restart: always
     ports:
       - '80:80'
+      - '443:443'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./website:/usr/share/nginx/website
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+      - ./www:/usr/share/nginx/www
+      - phpmyadmin:/var/www/html
     links:
       - app
+      - php-fpm
     depends_on:
       - app
-      - phpmyadmin
+      - php-fpm
+  # PHP-FPM
+  php-fpm:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - phpmyadmin:/var/www/html
+    ports:
+      - "9000:9000"
+  # Certbot
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - nginx
+    # restart: on-failure
+    command: certonly --webroot --webroot-path=/var/www/certbot --email trungkhiem1412@gmail.com --agree-tos --no-eff-email --renew-by-default -d anthome.site -d www.anthome.site
   # Nodejs
   app:
     # image: 18.15.0-alpine
     build:
-      context: .
+      context: nodejs
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
@@ -54,16 +80,20 @@ services:
     environment:
       PMA_ARBITRARY: 1
       PMA_HOST: db
-      PMA_USER: root
-      PMA_PASSWORD: 12345
+      PMA_PORT: 3306
+      # PMA_USER: root
+      # PMA_PASSWORD: 12345
       #
-      PMA_ABSOLUTE_URI: http://anthome.site:8080/
+      # PMA_ABSOLUTE_URI: https://anthome.site/pma/
       PMA_ENABLE_CREDENTIALS: 'true'
     ports:
       - '8080:80'
     volumes:
-      - ./phpmyadmin:/usr/share/phpmyadmin
+      - phpmyadmin:/var/www/html
     depends_on:
       - db
+    # Thêm đoạn code này để cài đặt mysqli
+    command: ["sh", "-c", "docker-php-ext-install mysqli && docker-php-entrypoint apache2-foreground"]
 volumes:
-  data:
+  data_anthome:
+  phpmyadmin:
