@@ -1,5 +1,7 @@
 // import model User vào file  userController
 const { Role, Account, Address } = require('../../models/dbModel');
+// Nodemail
+const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
 
@@ -149,6 +151,46 @@ const UserController = {
         // Upload data
         const user = await Account.create({ first_name, last_name, phone, email, password: hashedPassword });
         res.status(201).json({ message: 'Tạo tài khoản thành công!' });
+
+        // Gửi mail khi tạo tài khoản thành công
+        let transporter = nodemailer.createTransport({
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false, // upgrade later with STARTTLS
+          auth: {
+            user: 'anthomepoly@gmail.com',
+            pass: 'khiem1412fpt',
+          },
+          tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false,
+          },
+        });
+        let content = '';
+        content += `
+          <div style="padding: 10px; background-color: #003375">
+              <div style="padding: 10px; background-color: white;">
+                  <h4 style="color: #0085ff">Gửi mail với nodemailer và express</h4>
+                  <span style="color: black">Đây là mail test</span>
+              </div>
+          </div>
+        `;
+        const mainOptions = {
+          // thiết lập đối tượng, nội dung gửi mail
+          from: 'NQH-Test nodemailer',
+          to: req.body.email,
+          subject: 'Test Nodemailer',
+          text: 'Your text is here', //Thường thi mình không dùng cái này thay vào đó mình sử dụng html để dễ edit hơn
+          html: content, //Nội dung html mình đã tạo trên kia :))
+        };
+        transporter.sendMail(mainOptions, function (err, info) {
+          if (!err) {
+            console.log('Message sent: ' + info.response);
+          } else {
+            console.log(err);
+          }
+        });
+        // End block mail
       }
     } catch (error) {
       console.log(error);

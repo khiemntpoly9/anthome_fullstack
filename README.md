@@ -1,6 +1,6 @@
 # Hô hô hô
 
-- Đây là bản Nodejs API nâng cấp của Khiêm
+- Đây là bản Nodejs API nâng cấp
 - Lưu ý nên đọc file này trước khi sử dụng
 
 ## RUN APP
