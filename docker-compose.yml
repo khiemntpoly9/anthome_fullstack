@@ -37,7 +37,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      DB_NAME: anthome_db
-      DB_USER: root
-      DB_PASS: 12345
-      DB_HOST: db
+      DB_NAME: anthomex_anthome
+      DB_USER: anthomex_khiemntps16018
+      DB_PASS: YL7riBuu2sdJ4Qy
+      DB_HOST: 103.200.23.120
