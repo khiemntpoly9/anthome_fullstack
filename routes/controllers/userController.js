@@ -11,7 +11,7 @@ require('dotenv').config();
 // Sử dụng biến môi trường JWT_SECRET
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const UserController = {
