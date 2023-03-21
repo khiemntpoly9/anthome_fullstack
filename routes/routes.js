@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('./controllers/userController');
-// const cateController = require('./controllers/cateController');
+const cateController = require('./controllers/cateController');
 const productController = require('./controllers/productController');
 
 const authenticateToken = require('../middleware/authenticateToken');
@@ -21,7 +21,7 @@ router.get('/products', productController.getAllProduct);
 // router.get('/product/cate', productController.getProductsByCateId);
 
 // Định nghĩa route Category
-// router.post('/category/create', cateController.createCate);
+router.post('/category/create', cateController.createCate);
 // router.get('/categorys', cateController.getAllCate);
 // router.get('/category', cateController.getCateById);
 // router.put('/category/update', cateController.updateCate);

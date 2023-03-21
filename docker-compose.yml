@@ -13,10 +13,10 @@ services:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
       - ./www:/usr/share/nginx/www
-    links:
-      - app
-    depends_on:
-      - app
+    # links:
+    #   - app
+    # depends_on:
+    #   - app
   # Certbot
   certbot:
     image: certbot/certbot:latest
@@ -28,15 +28,15 @@ services:
     # restart: on-failure
     command: certonly --webroot --webroot-path=/var/www/certbot --email trungkhiem1412@gmail.com --agree-tos --no-eff-email --renew-by-default -d anthome.site -d www.anthome.site
   # Nodejs
-  app:
-    # image: 18.15.0-alpine
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - '3000:3000'
-    # environment:
-    #   DB_NAME: anthomex_anthome
-    #   DB_USER: anthomex_khiemntps16018
-    #   DB_PASS: YL7riBuu2sdJ4Qy
-    #   DB_HOST: 103.200.23.120
+  # app:
+  #   # image: 18.15.0-alpine
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - '3000:3000'
+  # environment:
+  #   DB_NAME: anthomex_anthome
+  #   DB_USER: anthomex_khiemntps16018
+  #   DB_PASS: YL7riBuu2sdJ4Qy
+  #   DB_HOST: 103.200.23.120
