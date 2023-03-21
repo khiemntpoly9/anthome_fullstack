@@ -13,7 +13,6 @@ services:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
       - ./www:/usr/share/nginx/www
-      - phpmyadmin:/var/www/html
     links:
       - app
     depends_on:
@@ -32,7 +31,7 @@ services:
   app:
     # image: 18.15.0-alpine
     build:
-      context: nodejs
+      context: .
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
