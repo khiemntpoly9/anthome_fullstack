@@ -1,0 +1,71 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
+    await queryInterface.createTable('products', {
+      id_product: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+      },
+      name_prod: {
+        type: Sequelize.STRING(255),
+        allowNull: false
+      },
+      cate_child_prod: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false
+      },
+      brand_prod: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false
+      },
+      id_detail_prod: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false
+      },
+      price_prod: {
+        type: Sequelize.DECIMAL(10,0),
+        allowNull: false
+      },
+      material_prod: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false
+      },
+      img_prod: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false
+      },
+      style_prod: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    })
+  },
+
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     * await queryInterface.dropTable('users');
+     */
+    await queryInterface.dropTable('products')
+  }
+};

@@ -20,14 +20,18 @@ Squelize Migrations CLI
 npx sequelize --help
 ```
 
+```bash
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+```
+
 > Tạo file Migration:
 ```bash
-npx sequelize migration: create --name 'name migration`
+npx sequelize migration:create --name 'name migration'
 ```
 
 > Chạy Migration:
 ```bash
-npx sequelize-cli db:migrate`
+npx sequelize-cli db:migrate
 npx sequelize-cli db:migrate --name 'name migration' --config 'config db'
 npx sequelize db:migration --name test.js --config connectDB.js`
 ```
@@ -40,4 +44,19 @@ npx sequelize-cli db:migrate --to 'name migration'
 > Hoàn tác migration, hãy sử dụng lệnh:
 ```bash
 npx sequelize-cli db:migrate:undo
+```
+
+> Tạo seeders
+```bash
+npx sequelize-cli seed:generate --name demo-user
+```
+> Run seeders
+```bash
+npx sequelize-cli db:seed:all
+```
+> Hoàn tác seeders
+```bash
+npx sequelize-cli db:seed:undo
+npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data
+npx sequelize-cli db:seed:undo:all
 ```

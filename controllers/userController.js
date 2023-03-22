@@ -1,5 +1,6 @@
 // import model User vào file  userController
-const { Role, Account, Address } = require('../../models/dbModel');
+// const { Role, Account, Address } = require('../../models/dbModel');
+const db = require('../models/index')
 // Nodemail
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -31,7 +32,7 @@ const UserController = {
     // Kiểm tra tính hợp lệ của tên đăng nhập và mật khẩu
     if (!user) {
       return res.status(401).json({ message: 'Tài khoản hoặc mật khẩu không hợp lệ!' });
-    }
+    } 
     // So sánh mật khẩu
     const passwordMatches = await bcrypt.compare(password, user.password);
     if (!passwordMatches) {
