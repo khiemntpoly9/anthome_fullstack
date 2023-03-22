@@ -15,4 +15,4 @@ Sequelize
 
 Squelize CLI
 ------------
-> npx sequelize --help
+> `npx sequelize --help`
