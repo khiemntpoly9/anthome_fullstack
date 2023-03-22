@@ -380,11 +380,11 @@ Category.hasMany(CategoryChild, { foreignKey: 'id_category_product' });
 // N-1: Danh mục con chỉ có 1 danh mục mẹ
 CategoryChild.belongsTo(Category, { foreignKey: 'id_category_product' });
 // Product
-// Category.hasMany(Product, { foreignKey: 'cate_prod' });
-// Product.belongsTo(Category, { foreignKey: 'cate_prod' });
+Category.hasMany(Product, { foreignKey: 'cate_prod' });
+Product.belongsTo(Category, { foreignKey: 'cate_prod' });
 // QH 1-1
-Product.hasMany(CategoryChild, { foreignKey: 'cate_child_prod' });
-CategoryChild.hasMany(Product, { foreignKey: 'id_category_child' });
+Product.belongsTo(CategoryChild, { foreignKey: 'cate_child_prod' });
+// CategoryChild.hasMany(Product, { foreignKey: 'id_category_child' });
 // Brand
 Brand.hasMany(Product, { foreignKey: 'brand_prod' });
 Product.belongsTo(Brand, { foreignKey: 'brand_prod' });
