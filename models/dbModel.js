@@ -381,7 +381,7 @@ Category.hasMany(CategoryChild, { foreignKey: 'id_category_product' });
 CategoryChild.belongsTo(Category, { foreignKey: 'id_category_product' });
 // Product
 Category.hasMany(Product, { foreignKey: 'cate_prod' });
-Product.belongsTo(Category, { foreignKey: 'cate_prod' });
+// Product.belongsTo(Category, { foreignKey: 'cate_prod' });
 // QH 1-1
 Product.belongsTo(CategoryChild, { foreignKey: 'cate_child_prod' });
 // CategoryChild.hasMany(Product, { foreignKey: 'id_category_child' });
