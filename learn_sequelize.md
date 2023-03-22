@@ -5,7 +5,7 @@ Sequelize
 > One-to-One (Một-một)
 > BelongsTo: quan hệ một bảng thuộc về một bảng khác
 > HasOne: quan hệ một bảng có một bản ghi liên kết đến một bảng khác
->
+
 > One-to-Many (Một-nhiều)
 > HasMany: quan hệ một bảng có nhiều bản ghi liên kết đến một bảng khác
 > BelongsTo: quan hệ một bảng thuộc về một bảng khác
