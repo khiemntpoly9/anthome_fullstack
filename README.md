@@ -1,11 +1,12 @@
-# Hô hô hô
+# Anthome Nodejs App
 
-- Đây là bản Nodejs API nâng cấp
-- Lưu ý nên đọc file này trước khi sử dụng
+Xin chào! 👋
+---------
+> Đây là bản Nodejs API nâng cấp
 
-## RUN APP
+<!-- ## RUN APP -->
 
-- npm start
+<!-- - npm start
 
 - Sử dụng NPX để sử dụng với các câu lệnh của Sequezile-cli
 
@@ -24,7 +25,7 @@
 - Hoàn tác migration, hãy sử dụng lệnh:
   // npx sequelize-cli db:migrate:undo
 
-- Xem trợ giúp: npx sequelize-cli --help
+- Xem trợ giúp: npx sequelize-cli --help -->
 
 <!-- Ở RUN DEV thì DB_HOST = localhost -->
 
