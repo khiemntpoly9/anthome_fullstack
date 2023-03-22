@@ -1,4 +1,4 @@
-### Sequelize Learn
+# Sequelize Learn
 
 Sequelize
 ----------
