@@ -15,10 +15,10 @@ router.get('/', (req, res) => {
 // Định nghĩa route Product
 // router.post('/product/create', productController.createProduct);
 // router.put('/product/update', productController.updateProduct);
-// router.delete('/product/del', productController.deleteProduct);
+router.delete('/product/del', productController.deleteProduct);
 router.get('/products', productController.getAllProduct);
-// router.get('/product', productController.getProductById);
-// router.get('/product/cate', productController.getProductsByCateId);
+router.get('/product', productController.getProductById);
+router.get('/product/cate', productController.getProductsByCateId);
 
 // Định nghĩa route Category
 router.post('/category/create', cateController.createCate);
