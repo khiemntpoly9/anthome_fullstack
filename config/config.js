@@ -5,7 +5,10 @@ module.exports = {
     "password": process.env.DB_PASS,
     "database": process.env.DB_NAME,
     "host": process.env.DB_HOST,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "freezeTableName": true
+    // Ẩn câu lệnh Query
+    // "logging": false
   },
   "test": {
     "username": "root",
