@@ -54,17 +54,6 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    // Tạo khoá phụ
-    await queryInterface.addConstraint('users', {
-      fields: ['id_role'],
-      type: 'foreign key',
-      // Tên ràng buộc
-      name: 'idrole_fk',
-      references: {
-        table: 'role',
-        field: 'id_role'
-      }
-    })
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('users');

@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.STRING(255),
         allowNull: false
       },
-      name_category_child: {
+      id_category_product: {
         type: Sequelize.INTEGER(11),
         allowNull: false
       },
@@ -33,15 +33,20 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
+    // Tạo khoá phụ
+    await queryInterface.addConstraint('category_child', {
+      fields: ['id_category_product'],
+      type: 'foreign key',
+      // Tên ràng buộc
+      name: 'category_child_fk_1',
+      references: {
+        table: 'category',
+        field: 'id_category'
+      }
+    })
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('colors');
-     */
     await queryInterface.dropTable('category_child');
   }
 };
