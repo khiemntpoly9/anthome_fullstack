@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 // const userController = require('../controllers/userController');
 // const cateController = require('./controllers/cateController');
-// const productController = require('./controllers/productController');
-const userTest = require('../controllers/userTest')
+const productController = require('../controllers/productController');
 
 // const authenticateToken = require('../middleware/authenticateToken');
 // Áp dụng middleware để xác thực tính hợp lệ của token cho tất cả các tài nguyên bảo vệ
@@ -13,15 +12,13 @@ router.get('/', (req, res) => {
   res.send('Server đang chạy trên Port 3000!');
 });
 
-router.get('/usertest', userTest.getAllUsers)
-
 // Định nghĩa route Product
-// router.post('/product/create', productController.createProduct);
-// router.put('/product/update', productController.updateProduct);
-// router.delete('/product/del', productController.deleteProduct);
-// router.get('/products', productController.getAllProduct);
-// router.get('/product', productController.getProductById);
-// router.get('/product/cate', productController.getProductsByCateId);
+router.post('/product/create', productController.createProduct);
+router.put('/product/update', productController.updateProduct);
+router.delete('/product/del', productController.deleteProduct);
+router.get('/products', productController.getAllProduct);
+router.get('/product', productController.getProductById);
+router.get('/product/cate', productController.getProductsByCateId);
 
 // Định nghĩa route Category
 // router.post('/category/create', cateController.createCate);

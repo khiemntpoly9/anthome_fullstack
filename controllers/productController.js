@@ -1,64 +1,75 @@
-// import model Product vào file  userController
-const {
-  CategoryChild,
-  Category,
-  Brand,
-  DetailProd,
-  Colors,
-  ColorProd,
-  MaterialProd,
-  ImageProd,
-  StyleProd,
-  Product,
-} = require('../../models/dbModel');
-// const Category = require('../../models/cateModel');
+const db = require('../models/index');
+const { Product, Category, CategoryChild, Brand, ImgProduct, DetailProduct, Colors, ColorProduct } = db;
 const Sequelize = require('sequelize');
 
 const ProductController = {
   // Thêm sản phẩm
   createProduct: async (req, res) => {
-    const { idCateProduct, nameProduct, priceProduct, description, image_url } = req.body;
+    const {
+      name_prod,
+      cate_child_prod,
+      brand_prod,
+      id_detail_prod,
+      price_prod,
+      material_prod,
+      img_prod,
+      style_prod,
+    } = req.body;
     try {
       const product = await Product.create({
-        idCateProduct,
-        nameProduct,
-        priceProduct,
-        description,
-        image_url,
+        name_prod,
+        cate_child_prod,
+        brand_prod,
+        id_detail_prod,
+        price_prod,
+        material_prod,
+        img_prod,
+        style_prod,
       });
-      // res.status(201).json(product);
-      res.status(201).send('Thêm sản phẩm thành công!');
+      res.status(201).json({ message: 'Thêm sản phẩm thành công!' });
     } catch (error) {
       console.log(error);
-      res.status(500).send('Internal Server Error');
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   },
   // Sửa sản phẩm
   updateProduct: async (req, res) => {
     const { id } = req.query;
-    const { idCateProduct, nameProduct, priceProduct, description, image_url } = req.body;
+    const {
+      name_prod,
+      cate_child_prod,
+      brand_prod,
+      id_detail_prod,
+      price_prod,
+      material_prod,
+      img_prod,
+      style_prod,
+    } = req.body;
     try {
       const numRows = await Product.update(
         // UpdateAt thêm thời gian lúc update
         {
-          idCateProduct,
-          nameProduct,
-          priceProduct,
-          description,
-          image_url,
+          name_prod,
+          cate_child_prod,
+          brand_prod,
+          id_detail_prod,
+          price_prod,
+          material_prod,
+          img_prod,
+          style_prod,
           updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
-        { returning: true, where: { id } }
+        { returning: true, where: { id_product: id } }
       );
       // Hàm update trả về một mảng có một phần tử, là số lượng bản ghi đã được cập nhật.
       // Nếu số lượng bản ghi này bằng 0, có nghĩa là không tìm thấy người dùng có ID bằng id,
       // ta gửi trả về một mã lỗi 404 và thông báo "Category not found".
       if (numRows[0] === 0) {
-        res.status(404).send('Product not found');
+        res.status(404).send({ message: 'Không tìm thấy sản phẩm' });
         return;
       }
       const updatedProduct = await Product.findByPk(id);
-      res.send(updatedProduct);
+      res.json({ message: 'Sửa sản phẩm thành công!' });
     } catch (error) {
       console.log(error);
       res.status(500).send('Internal Server Error');
@@ -73,13 +84,13 @@ const ProductController = {
         where: { id_product },
       });
       if (deletedRows === 0) {
-        res.status(404).json({message: 'Không tìm thấy sản phẩm!'});
+        res.status(404).json({ message: 'Không tìm thấy sản phẩm!' });
         return;
       }
-      res.json({message: 'Xoá sản phẩm thành công!'});
+      res.json({ message: 'Xoá sản phẩm thành công!' });
     } catch (error) {
       console.log(error);
-      res.status(500).json({message: 'Internal Server Error'});
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   },
   // Lấy tất cả sản phẩm
@@ -89,10 +100,6 @@ const ProductController = {
         // Trả về dữ liệu kiểm soát
         attributes: ['id_product', 'name_prod', 'price_prod', 'createdAt', 'updatedAt'],
         include: [
-          // {
-          //   model: Category,
-          //   attributes: ['name_category'],
-          // },
           {
             model: CategoryChild,
             attributes: ['id_category_child', 'name_category_child'],
@@ -108,18 +115,18 @@ const ProductController = {
             attributes: ['name_brand'],
           },
           {
-            model: ImageProd,
+            model: ImgProduct,
             attributes: ['img_1', 'img_2', 'img_3', 'img_4'],
           },
           // Lấy thông tin sản phẩm
           {
-            model: DetailProd,
+            model: DetailProduct,
             attributes: ['detail_prod', 'description_prod', 'specification_prod', 'preserve_prod'],
           },
           // Lấy màu sản phẩm
           {
             model: Colors,
-            through: ColorProd,
+            through: ColorProduct,
             attributes: ['name_color', 'hex_color'],
           },
         ],
@@ -141,10 +148,6 @@ const ProductController = {
       const product = await Product.findByPk(id_product, {
         attributes: ['id_product', 'name_prod', 'price_prod', 'createdAt', 'updatedAt'],
         include: [
-          // {
-          //   model: Category,
-          //   attributes: ['name_category'],
-          // },
           {
             model: CategoryChild,
             attributes: ['id_category_child', 'name_category_child'],
@@ -160,30 +163,30 @@ const ProductController = {
             attributes: ['name_brand'],
           },
           {
-            model: ImageProd,
+            model: ImgProduct,
             attributes: ['img_1', 'img_2', 'img_3', 'img_4'],
           },
           // Lấy thông tin sản phẩm
           {
-            model: DetailProd,
+            model: DetailProduct,
             attributes: ['detail_prod', 'description_prod', 'specification_prod', 'preserve_prod'],
           },
           // Lấy màu sản phẩm
           {
             model: Colors,
-            through: ColorProd,
+            through: ColorProduct,
             attributes: ['name_color', 'hex_color'],
           },
-        ]
+        ],
       });
       if (!product) {
-        res.status(404).send('Product not found');
+        res.status(404).json({ message: 'Product not found' });
         return;
       }
       res.status(200).json(product);
     } catch (error) {
       console.log(error);
-      res.status(500).send('Internal Server Error');
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   },
   // Lấy danh sách sản phẩm theo danh mục con
@@ -196,6 +199,11 @@ const ProductController = {
           cate_child_prod: cateid,
         },
       });
+      console.log(products);
+      if (products.length === 0) {
+        res.status(404).json({ message: 'Không tìm thấy sản phẩm ở danh mục này!' });
+        return;
+      }
       res.status(200).json(products);
     } catch (error) {
       console.log(error);

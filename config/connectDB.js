@@ -12,18 +12,18 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
   host: DB_HOST,
   dialect: 'mysql',
   // Đặt tên bản đúng với Cấu trúc
-  freezeTableName: true
+  // freezeTableName: true
   // Ẩn lệnh Query
-  // logging: false
+  logging: false,
 });
 
-const connectDB = async() => {
+const connectDB = async () => {
   try {
-    await sequelize.authenticate()
+    await sequelize.authenticate();
     console.log('Connection has been established successfully!');
-  } catch(error) {
+  } catch (error) {
     console.error('Unable to connect to the database: ', error);
   }
-}
+};
 
 module.exports = connectDB;
