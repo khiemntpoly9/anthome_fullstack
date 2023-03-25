@@ -1,7 +1,7 @@
 const express = require('express');
 const routes = require('./routes/routes');
 const cors = require('cors');
-const connectDB = require('./config/connectDB')
+const connectDB = require('./config/connectDB');
 
 // .ENV
 require('dotenv').config();
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CROS - Cho phép truy cập từ các domain khác như sau
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 // Test Connect DB
 connectDB();

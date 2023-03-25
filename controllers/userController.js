@@ -1,6 +1,5 @@
-// import model User vào file  userController
-// const { Role, Account, Address } = require('../../models/dbModel');
-const db = require('../models/index')
+const db = require('../models/index');
+const { User, Role } = db;
 // Nodemail
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -32,7 +31,7 @@ const UserController = {
     // Kiểm tra tính hợp lệ của tên đăng nhập và mật khẩu
     if (!user) {
       return res.status(401).json({ message: 'Tài khoản hoặc mật khẩu không hợp lệ!' });
-    } 
+    }
     // So sánh mật khẩu
     const passwordMatches = await bcrypt.compare(password, user.password);
     if (!passwordMatches) {
@@ -76,17 +75,17 @@ const UserController = {
   // Lấy tất cả Account
   getAllUsers: async (req, res) => {
     try {
-      const users = await Account.findAll({
+      const users = await User.findAll({
         attributes: ['id_user', 'first_name', 'last_name', 'email', 'phone'],
         include: [
           {
             model: Role,
             attributes: ['name_role', 'short_role'],
           },
-          {
-            model: Address,
-            attributes: ['id_address', 'name_address'],
-          },
+          // {
+          //   model: Address,
+          //   attributes: ['id_address', 'name_address'],
+          // },
         ],
       });
       res.status(200).json(users);
@@ -112,21 +111,21 @@ const UserController = {
     const { id } = req.query;
     try {
       // Dùng phương thức User.findByPk để tìm 'id' tương ứng
-      const user = await Account.findByPk(id, {
+      const user = await User.findByPk(id, {
         attributes: ['id_user', 'first_name', 'last_name', 'email', 'phone'],
         include: [
           {
             model: Role,
             attributes: ['name_role', 'short_role'],
           },
-          {
-            model: Address,
-            attributes: ['id_address', 'name_address'],
-          },
+          // {
+          //   model: Address,
+          //   attributes: ['id_address', 'name_address'],
+          // },
         ],
       });
       if (!user) {
-        res.status(404).json({message: 'User not found'});
+        res.status(404).json({ message: 'User not found' });
         return;
       }
       res.status(200).json(user);
@@ -223,7 +222,7 @@ const UserController = {
       res.send(updatedUser);
     } catch (error) {
       console.log(error);
-      res.status(500).json({message: 'Internal Server Error'});
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   },
 
@@ -244,7 +243,7 @@ const UserController = {
       res.send(updatedUserv2);
     } catch (error) {
       console.log(error);
-      res.status(500).json({message: 'Internal Server Error'});
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   },
 
@@ -262,7 +261,7 @@ const UserController = {
       res.json({ message: 'User deleted successfully' });
     } catch (error) {
       console.log(error);
-      res.status(500).json({message: 'Internal Server Error'});
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   },
 };
