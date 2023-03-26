@@ -2,64 +2,58 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('products', {
       id_product: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
       },
       name_prod: {
         type: Sequelize.STRING(255),
-        allowNull: false
+        allowNull: false,
       },
       cate_child_prod: {
         type: Sequelize.INTEGER(11),
-        allowNull: false
+        allowNull: false,
       },
       brand_prod: {
         type: Sequelize.INTEGER(11),
-        allowNull: false
+        allowNull: false,
       },
       id_detail_prod: {
         type: Sequelize.INTEGER(11),
-        allowNull: false
+        allowNull: false,
       },
       price_prod: {
-        type: Sequelize.DECIMAL(10,0),
-        allowNull: false
+        type: Sequelize.DECIMAL(10, 0),
+        allowNull: false,
       },
       material_prod: {
         type: Sequelize.INTEGER(11),
-        allowNull: false
+        allowNull: false,
       },
       img_prod: {
         type: Sequelize.INTEGER(11),
-        allowNull: false
+        allowNull: false,
       },
       style_prod: {
         type: Sequelize.INTEGER(11),
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
-    })
+        type: Sequelize.DATE,
+      },
+    });
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('products')
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('products');
+  },
 };
