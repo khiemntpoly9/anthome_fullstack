@@ -14,10 +14,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "handlebars": "^4.7.7",
     "jsonwebtoken": "^9.0.0",
-    "mjml": "^4.13.0",
     "mysql2": "^3.1.2",
     "nodemailer": "^6.9.1",
+    "nodemailer-express-handlebars": "^6.1.0",
     "nodemon": "^2.0.20",
     "sequelize": "^6.28.0"
   },

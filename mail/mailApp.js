@@ -1,14 +1,11 @@
 // Nodemail
 const nodemailer = require('nodemailer');
-// MJML
-const mjml2html = require('mjml');
-const fs = require('fs');
+// Handlebars
+const hbs = require('nodemailer-express-handlebars');
 // .ENV
 require('dotenv').config();
-//
-const createaccount = fs.readFileSync('mail/createaccount.mjml', 'utf8');
-const { html } = mjml2html(createaccount);
-//   Cấu hình vẫn chuyển
+
+// Cấu hình vẫn chuyển
 let transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
@@ -19,16 +16,35 @@ let transporter = nodemailer.createTransport({
   },
 });
 
+//
+let options = {
+  viewEngine: {
+    extName: '.hbs',
+    partialsDir: 'mail/template',
+    layoutsDir: 'mail/template',
+    defaultLayout: '',
+  },
+  viewPath: 'mail/template',
+  extName: '.hbs',
+};
+
+transporter.use('compile', hbs(options));
+
 const mailApp = {
-  createAccount: async (email, res) => {
+  createAccount: async (lastName, email) => {
     try {
-      let info = await transporter.sendMail({
+      const mail = {
         from: '"Ant Home Poly" <anthomepoly@gmail.com>',
-        to: email, // nhận tham số Email truyền vào
+        to: email,
         subject: 'Tạo tài khoản thành công!',
-        html: html,
-      });
-      res.json({ message: 'Gửi mail thành công!' });
+        template: 'createaccount',
+        context: {
+          lastName: lastName,
+          email: email,
+        },
+      };
+      let info = await transporter.sendMail(mail);
+      console.log('Gửi mail thành công!');
     } catch (error) {
       console.log(error);
     }
