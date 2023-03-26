@@ -1,0 +1,23 @@
+<mjml>
+  <mj-body background-color="white">
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="20px" align="center">
+          Chúc mừng bạn đã tạo tài khoản thành công! ️🎉
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-image src="https://bcp.cdnchinhphu.vn/zoom/600_315/334894974524682240/2022/4/30/tphcm4-16512086615091761780817-0-82-1080-1810-crop-16512796981302136282042.jpg"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text align="center">
+          <a style="text-decoration: none; font-size: 16px;" href="https://anthome.site">Ant Home</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

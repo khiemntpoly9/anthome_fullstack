@@ -153,7 +153,7 @@ const UserController = {
         // Upload data
         const user = await User.create({ first_name, last_name, phone, email, password: hashedPassword });
         // Gửi mail khi tạo tài khoản thành công
-        mailApp.testMail(email);
+        mailApp.createAccount(email);
         // End mail
         res.status(201).json({ message: 'Tạo tài khoản thành công!' });
       }

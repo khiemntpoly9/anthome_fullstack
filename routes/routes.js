@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const cateController = require('../controllers/cateController');
 const productController = require('../controllers/productController');
-// const mailController = require('../controllers/mailController');
+const mailController = require('../mail/mailApp');
 
 // const authenticateToken = require('../middleware/authenticateToken');
 // Áp dụng middleware để xác thực tính hợp lệ của token cho tất cả các tài nguyên bảo vệ
@@ -45,6 +45,6 @@ router.put('/changerole', userController.changeRole);
 router.delete('/deleteuser', userController.deleteUser);
 
 // Test mail
-// router.get('/mail', mailController.testMail);
+router.get('/mail', mailController.createAccount);
 
 module.exports = router;
