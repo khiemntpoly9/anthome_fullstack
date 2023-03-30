@@ -48,6 +48,7 @@ const UserController = {
 		// Lưu trữ token trong cơ sở dữ liệu
 		user.token = token;
 		await user.save();
+		// Lưu Cookie
 		res.cookie('access_token', token, { httpOnly: true }).send('Ok');
 	},
 

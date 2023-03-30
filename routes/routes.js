@@ -10,7 +10,7 @@ const mailController = require('../mail/mailApp');
 // router.use(authenticateToken);
 
 router.get('/', (req, res) => {
-  res.send('Server đang chạy trên Port 3000!');
+	res.send('Server đang chạy trên Port 3000!');
 });
 
 // Định nghĩa route Product
