@@ -48,31 +48,14 @@ const UserController = {
 		// Lưu trữ token trong cơ sở dữ liệu
 		user.token = token;
 		await user.save();
-		// Trả về token cho trang đăng nhập
-		// res.json({
-		// 	token: token,
-		// });
-		res.cookie('access_token', token, { maxAge: 365 * 24 * 60 * 60 * 100, httpOnly: true });
+		res.cookie('access_token', token, { httpOnly: true }).send('Ok');
 	},
 
 	// Logout
 	authLogout: async (req, res) => {
-		const token = req.headers.authorization?.split(' ')[1];
-		if (!token) {
-			return res.status(401).json({ message: 'Không tìm thấy token xác thực' });
-		}
-		try {
-			const decodedToken = jwt.verify(token, JWT_SECRET);
-			const userId = decodedToken.userId;
-			// Thực hiện xoá phiên làm việc của người dùng trên server ở đây
-			// ...
-			const user = await User.findOne({ where: { id: userId } });
-			user.token = null;
-			await user.save();
-			res.json({ message: 'Đăng xuất thành công' });
-		} catch (error) {
-			return res.status(401).json({ message: 'Token xác thực không hợp lệ', Token: `${token}` });
-		}
+		res
+			.clearCookie('access_token', { sameSite: 'none', secure: true })
+			.json({ message: 'Đăng xuất thành công!' });
 	},
 
 	// Lấy tất cả Account
