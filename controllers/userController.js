@@ -4,7 +4,6 @@ const mailApp = require('../mail/mailApp');
 // .ENV
 require('dotenv').config();
 // Nodemail
-const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
 
@@ -49,7 +48,7 @@ const UserController = {
 		user.token = token;
 		await user.save();
 		// Lưu Cookie
-		res.cookie('access_token', token, { httpOnly: true }).send('Ok');
+		res.cookie('access_token', token, { httpOnly: true }).json({ message: 'Đăng nhập thành công!' });
 	},
 
 	// Logout
