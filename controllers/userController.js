@@ -41,21 +41,33 @@ const UserController = {
 		}
 		// Tạo mã thông báo (token) để xác thực yêu cầu của người dùng
 		const token = jwt.sign(
-			{ userId: user.id_user, fullName: user.last_name, role: user.short_role },
+			{ userId: user.id_user, fullName: user.last_name, role: user.Role.short_role },
 			JWT_SECRET
 		);
 		// Lưu trữ token trong cơ sở dữ liệu
 		user.token = token;
 		await user.save();
-		// Lưu Cookie
+		// Trả về cookie lưu ở người dùng
 		res.cookie('access_token', token, { httpOnly: true }).json({ message: 'Đăng nhập thành công!' });
 	},
 
 	// Logout
 	authLogout: async (req, res) => {
-		res
-			.clearCookie('access_token', { sameSite: 'none', secure: true })
-			.json({ message: 'Đăng xuất thành công!' });
+		const { id_user } = req.user;
+		try {
+			// Thực hiện xoá token người dùng ở server
+			const user = await User.findByPk(id_user);
+			// Set token null
+			user.token = null;
+			await user.save();
+			res
+				// Xoá cookie
+				.clearCookie('access_token', { sameSite: 'none', secure: true })
+				.json({ message: 'Đăng xuất thành công!' });
+		} catch (error) {
+			console.log(error);
+			res.status(500).json({ message: 'Internal Server Error' });
+		}
 	},
 
 	// Lấy tất cả Account

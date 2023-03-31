@@ -5,9 +5,9 @@ const cateController = require('../controllers/cateController');
 const productController = require('../controllers/productController');
 const mailController = require('../mail/mailApp');
 
-// const authenticateToken = require('../middleware/authenticateToken');
+const authToken = require('../middleware/authenticateToken');
 // Áp dụng middleware để xác thực tính hợp lệ của token cho tất cả các tài nguyên bảo vệ
-// router.use(authenticateToken);
+// router.use(authToken);
 
 router.get('/', (req, res) => {
 	res.send('Server đang chạy trên Port 3000!');
@@ -31,10 +31,9 @@ router.delete('/category/del', cateController.deleteCate);
 
 // Định nghĩa route User
 router.post('/auth', userController.authLogin);
-router.post('/logout', userController.authLogout);
+router.post('/logout', authToken.authLogout, userController.authLogout);
 // Bảo mật API
-// router.get("/users", authenticateToken, userController.getAllUsers);
-router.get('/users', userController.getAllUsers);
+router.get('/users', authToken.adminRole, userController.getAllUsers);
 router.get('/user', userController.getUserById);
 router.get('/listrole', userController.getRoleDetail);
 router.post('/createuser', userController.createUser);
